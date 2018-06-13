@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>MapBox</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #map {
+            position: fixed;
+            width: 50%;
+            top: 0px;
+            bottom: 0;
+        }
+
+        #features {
+            width: 50%;
+            margin-left: 50%;
+            font-family: monospace;
+            overflow-y: scroll;
+            background-color: maroon;
+        }
+
+        section {
+            padding: 25px 50px;
+            line-height: 25px;
+            border-bottom: 3px solid #a8a8a8;
+            opacity: 0.25;
+        }
+
+        section.active {
+            opacity: 1;
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        p {
+            font-size: 1.3em;
+            font-family: monospace;
+            color: whitesmoke;
+        }
+
+        h3 {
+            font-size: 2em;
+            font-family: monospace;
+            color: whitesmoke;
+        }
+
+        img {
+            width: 90%;
+            display: block;
+            margin: auto;
+            filter: sepia(100%);
+        }
+
+        #logo {
+            width: 90%;
+            display: block;
+            margin: auto;
+            margin-top: 40px;
+        }
+
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.5em;
+            text-align: center;
+            line-height: 10px;
+        }
+
+        .marker {
+            display: block;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 0;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id='map'></div>
+    <div id='features'>
+        <section id='intro' class='active'>
+             <img src="images/making-a-murderer.jpg" alt="Making A Murderer" id='logo' width: 50%>
+            <h3>Introduktion til serien</h3>
+            <p>
+                Hitserien fra Netflix Making A Murderer følger historien om Steven Avery fra Manitowoc, Wisconsin, som har brugt to årtier i fængsel for en sigtelse for et seksuelt overgreb, inden DNA beviser beviste hans uskyld i den forbrydelse. Da han blev løsladt i 2003, sagsøgte Avery staten for $36 millioner. I 2007, fire år efter hans løsladelse, blev han dømt to årtier bag tremmer for mordet på den 25-årige Teresa Halbach, en fotograf som tog hen til Averys bopæl for at fotografere hans søsters mini van til en salgsannonce. Dette map afdækker historien bag den første anholdelse for seksuelt overgreb i årene 1985-2003.
+            </p>
+
+        </section>
+        <section id='stranden'>
+            <img src="images/the-beach.jpg" alt="Stranden hvor Penny Beernsten blev forsøgt voldtaget">
+            <h3>Point Beach, Wisconsin, 1985</h3>
+            <p> På denne strand blev en mor fra lokalområdet, Penny Beernsten forsøgt voldtaget af en mand under en løbetur langs vandet. Mens dette skete, vidnede Beernsten at hun studerede alle detaljer om hendes overgrebsmand, så hun kunne give polititet en positiv identifikation. <br>
+            Manden hun anklagede var Avery. </p>
+            
+        </section>
+        <section id='anholdt1'>
+            <img src="images/charged-for-assault.jpg" alt="Avery bliver anholdt første gang">
+            <h3>Avery Auto Salvage, Wisconsin, 1985</h3>
+            <p>Udelukkende ud fra Beernstens vidneudsagn, uden DNA-beviser, da dette ikke var muligt på daværende tidspunkt, tog politiet til Averys hjem og anholdte ham. Avery blev dømt 20 års fængsel. </p>
+      
+        </section>
+        <section id='løsladt'>
+            <img src="images/loesladt.jpg" alt="Avery hånd i hånd med sin søster og daværende kæreste, da han første gang bliver løsladt">
+            <h3>Green Bay Correctional Facility, Wisconsin, 2003</h3>
+            <p>Wisconsin Innocent Project tog Averys sag. I løbet af de 18 år, Avery på dette tidspunkt har siddet i fængsel, er der udviklet ny teknologi til at teste DNA. De nye undersøgelser viste, at DNA'en man dengang fandt under neglene på Penny Beernsten, tilhørte Gregory Allen. En mand der allerede sad i fængsel for en række seksuelle overgreb i Wisconsin i 1980'erne. Dette betød, at Avery blev løsladt og renset for anklagerne. Det skulle dog vise sig ikke at være sidste gang politiet er efter Steven Avery.  </p>
+        
+
+            <footer> Simone Toubøl <br> @2018
+            </footer>
+        </section>
+    </div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic2ltb25ldG91Ym9sIiwiYSI6ImNqaWMxZ3JibzFmbnMzcXM5ZmdrdXV5ZHAifQ.72n9R2mGVpEcZFWBT9vjnw';
+
+        var map = new mapboxgl.Map({
+            container: 'map',
+             style: 'mapbox://styles/simonetoubol/cjicveo5l0mn62smh3uwn1njw',
+            center: [-90.461080, 44.441208],
+            zoom: 6,
+            bearing: 10,
+            pitch: 45,
+        });
+
+        var chapters = {
+            'intro': {
+                bearing: 27,
+                center: [-90.461080, 44.441208],
+                zoom: 6,
+                pitch: 20,
+            },
+            'stranden': {
+                center: [-87.507954, 44.227258],
+                bearing: 10,
+                zoom: 12,
+                pitch: 0,
+            },
+            'anholdt1': {
+                bearing: 10,
+                center: [-87.690559, 44.254635],
+                zoom: 15,
+                speed: 0.6,
+                pitch: 40,
+            },
+            'løsladt': {
+                bearing: 90,
+                center: [-88.037143,44.470685],
+                zoom: 15,
+            },
+            'missing': {
+                bearing: 45,
+                center: [-87.690559, 44.254635],
+                zoom: 15,
+                pitch: 20,
+                speed: 0.5,
+            }
+        };
+
+        // On every scroll event, check which element is on screen
+        window.onscroll = function() {
+            var chapterNames = Object.keys(chapters);
+            for (var i = 0; i < chapterNames.length; i++) {
+                var chapterName = chapterNames[i];
+                if (isElementOnScreen(chapterName)) {
+                    setActiveChapter(chapterName);
+                    break;
+                }
+            }
+        };
+
+        var activeChapterName = 'stranden';
+
+        function setActiveChapter(chapterName) {
+            if (chapterName === activeChapterName) return;
+
+            map.flyTo(chapters[chapterName]);
+
+            document.getElementById(chapterName).setAttribute('class', 'active');
+            document.getElementById(activeChapterName).setAttribute('class', '');
+
+            activeChapterName = chapterName;
+        }
+
+        function isElementOnScreen(id) {
+            var element = document.getElementById(id);
+            var bounds = element.getBoundingClientRect();
+            return bounds.top < window.innerHeight && bounds.bottom > 40;
+        }
+    </script>
+
+    
+</body>
+
+</html>
